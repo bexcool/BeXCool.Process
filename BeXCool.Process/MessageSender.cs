@@ -27,9 +27,6 @@ namespace BeXCool.Process
         {
             var messageFile = $@"{DataCacheLocation}\bcpc-{id}";
 
-            var f = File.Create(messageFile);
-            f.Close();
-
             File.WriteAllText(messageFile, JsonConvert.SerializeObject(message));
         }
 

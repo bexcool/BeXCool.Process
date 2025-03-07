@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeXCool.Process", "BeXCool.Process\BeXCool.Process.csproj", "{97EC41AF-BCFE-427A-BD08-491B8A43DE45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeXCool.Process", "BeXCool.Process\BeXCool.Process.csproj", "{97EC41AF-BCFE-427A-BD08-491B8A43DE45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeXCool.Process.Test", "BeXCool.Process.Test\BeXCool.Process.Test.csproj", "{0BD20CB2-1471-46FD-8C9E-584F2208B587}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{97EC41AF-BCFE-427A-BD08-491B8A43DE45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97EC41AF-BCFE-427A-BD08-491B8A43DE45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97EC41AF-BCFE-427A-BD08-491B8A43DE45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BD20CB2-1471-46FD-8C9E-584F2208B587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BD20CB2-1471-46FD-8C9E-584F2208B587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BD20CB2-1471-46FD-8C9E-584F2208B587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BD20CB2-1471-46FD-8C9E-584F2208B587}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,14 +1,9 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Timer = System.Timers.Timer;
 
 namespace BeXCool.Process
 {
-    public delegate void MessageTransfer(string id, object data);
+    public delegate void MessageTransfer(string id, MessageModel message);
 
     public class MessageListener
     {
@@ -37,15 +32,66 @@ namespace BeXCool.Process
         /// <summary>
         /// Listen to a specific ID.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">ID to listen to.</param>
         /// <returns>New instance of the MessageListener.</returns>
-        public static MessageListener Listen(string id, bool manualCheck = false)
+        public static MessageListener Listen(string id)
+        {
+            var ml = new MessageListener();
+            ml.ID = id;
+
+            ml.InitializeTimer();
+
+            return ml;
+        }
+
+        /// <summary>
+        /// Listen to a specific ID.
+        /// </summary>
+        /// <param name="id">ID to listen to.</param>
+        /// <param name="manualCheck">Don't use timer for checking for messages.</param>
+        /// <returns>New instance of the MessageListener.</returns>
+        public static MessageListener Listen(string id, bool manualCheck)
         {
             var ml = new MessageListener();
             ml.ID = id;
 
             if (!manualCheck) ml.InitializeTimer();
-            
+
+            return ml;
+        }
+
+        /// <summary>
+        /// Listen to a specific ID.
+        /// </summary>
+        /// <param name="id">ID to listen to.</param>
+        /// <param name="dispatcher">Message transfer event dispatcher.</param>
+        /// <returns></returns>
+        public static MessageListener Listen(string id, MessageTransfer dispatcher)
+        {
+            var ml = new MessageListener();
+            ml.ID = id;
+
+            if (dispatcher != null) ml.InitializeDispatcher(dispatcher);
+            ml.InitializeTimer();
+
+            return ml;
+        }
+
+        /// <summary>
+        /// Listen to a specific ID.
+        /// </summary>
+        /// <param name="id">ID to listen to.</param>
+        /// <param name="dispatcher">Message transfer event dispatcher.</param>
+        /// <param name="manualCheck">Don't use timer for checking for messages.</param>
+        /// <returns></returns>
+        public static MessageListener Listen(string id, MessageTransfer dispatcher, bool manualCheck)
+        {
+            var ml = new MessageListener();
+            ml.ID = id;
+
+            if (dispatcher != null) ml.InitializeDispatcher(dispatcher);
+            if (!manualCheck) ml.InitializeTimer();
+
             return ml;
         }
 
@@ -55,6 +101,11 @@ namespace BeXCool.Process
         public void Stop()
         {
             ListeningTimer.Stop();
+        }
+
+        private void InitializeDispatcher(MessageTransfer d)
+        {
+            MessageReceived += d;
         }
 
         /// <summary>
@@ -75,30 +126,36 @@ namespace BeXCool.Process
         /// <summary>
         /// Force checking for any received messages.
         /// </summary>
-        public void ForceCheck()
+        /// <returns>True if a message was received.</returns>
+
+        public bool ForceCheck()
         {
-            CheckForMessage();
+            return CheckForMessage();
         }
 
-        private void CheckForMessage()
+        private bool CheckForMessage()
         {
             var dataPath = $@"{DataCacheLocation}\bcpc-{ID}";
 
             if (File.Exists(dataPath))
             {
-                var data = File.ReadAllText(dataPath);
+                var message = File.ReadAllText(dataPath);
 
                 File.Delete(dataPath);
 
-                var mm = JsonConvert.DeserializeObject<MessageModel>(data);
+                var mm = JsonConvert.DeserializeObject<MessageModel>(message);
 
                 if (mm != null) OnMessageReceived(mm);
+
+                return true;
             }
+
+            return false;
         }
 
-        protected virtual void OnMessageReceived(MessageModel data)
+        protected virtual void OnMessageReceived(MessageModel message)
         {
-            MessageReceived?.Invoke(ID, data);
+            MessageReceived?.Invoke(ID, message);
         }
     }
 }

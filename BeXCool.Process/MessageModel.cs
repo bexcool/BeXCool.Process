@@ -8,18 +8,20 @@ namespace BeXCool.Process
 {
     public class MessageModel
     {
-        public Enum MessageType { get; set; }
+        public long MessageType { get; set; } = 0;
         public string Data { get; set; } = string.Empty;
 
-        public MessageModel(Enum messageType, string data)
+        public MessageModel(long messageType, string data)
         {
             MessageType = messageType;
             Data = data;
         }
 
-        public MessageModel(Enum messageType)
+        public MessageModel(long messageType)
         {
             MessageType = messageType;
         }
+
+        public MessageModel() { }
     }
 }
